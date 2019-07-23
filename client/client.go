@@ -1,7 +1,7 @@
 package client
 
 import (
-	"chat_client/config"
+	"ChatClient/failer"
 	"net"
 	"os"
 )
@@ -11,10 +11,11 @@ func ConnectToServer(network, address string) {
 	conn, err := net.Dial(network, address)
 	defer conn.Close()
 
-	config.FailOnError(err, "connect to server")
+	failer.FailOnError(err, "connect to server")
 	go PrintMessages(conn)
-	_, err = SayHello(conn)
-	config.FailOnError(err, "say hello to server")
+	_, err = SayOneMessage(conn, "Client says hello!!!\n")
+	failer.FailOnError(err, "say hello to server")
 
 	ReadFromCopyTo(conn, os.Stdin)
+	_, err = SayOneMessage(conn, "Client says goodbye!!!\n")
 }

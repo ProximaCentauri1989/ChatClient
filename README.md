@@ -12,5 +12,6 @@ The project consists of four packages.
 | Main          | main.go, utils.go        | Implements main routine    |
 | Server        | server.go, utils.go      | Implements server logic    |
 | Client        | client.go, utils.go      | Implements client logic    |
-| Config        | constants.go, failer.go  | Error handler and constants|
+| Config        | constants.go             |                   Constants|
+| Failer        | failer.go                | Error handler              |
 

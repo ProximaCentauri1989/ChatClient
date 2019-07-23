@@ -1,8 +1,9 @@
 package client
 
 import (
+	"ChatClient/config"
+	"ChatClient/failer"
 	"bufio"
-	"chat_client/config"
 	"fmt"
 	"io"
 	"log"
@@ -18,16 +19,15 @@ func PrintMessages(conn net.Conn) {
 		fmt.Fprintln(os.Stdout, serverAddr+config.Separator+input.Text())
 	}
 	log.Println("Server connection lost")
-	os.Exit(1)
 }
 
 //Sends greetings to server
-func SayHello(c net.Conn) (int, error) {
-	return c.Write([]byte("Client says hello!!!\n"))
+func SayOneMessage(c net.Conn, msg string) (int, error) {
+	return c.Write([]byte(msg))
 }
 
 func ReadFromCopyTo(dst io.Writer, src io.Reader) {
 	if _, err := io.Copy(dst, src); err != nil {
-		config.FailOnError(err, "while messaging with server")
+		failer.FailOnError(err, "while messaging with server")
 	}
 }

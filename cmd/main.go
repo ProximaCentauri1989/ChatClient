@@ -1,9 +1,10 @@
 package main
 
 import (
-	"chat_client/client"
-	"chat_client/config"
-	"chat_client/server"
+	"ChatClient/client"
+	"ChatClient/config"
+	"ChatClient/failer"
+	"ChatClient/server"
 )
 
 func main() {
@@ -12,7 +13,7 @@ func main() {
 	if err != nil && IsAlreadyBinded(err) {
 		client.ConnectToServer(config.Network, config.Address)
 	} else {
-		config.FailOnError(err, "start server")
+		failer.FailOnError(err, "start server")
 	}
 
 	server.HandleConnection(connection)

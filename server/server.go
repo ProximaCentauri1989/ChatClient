@@ -1,8 +1,9 @@
 package server
 
 import (
+	"ChatClient/config"
+	"ChatClient/failer"
 	"bufio"
-	"chat_client/config"
 	"fmt"
 	"log"
 	"net"
@@ -19,7 +20,7 @@ func HandleConnection(listener net.Listener) {
 	for {
 		log.Print("Waiting for new connection...\n")
 		conn, err := listener.Accept()
-		config.FailOnError(err, "accepting connection")
+		failer.FailOnError(err, "accepting connection")
 		log.Print("Chat session has been started...\n")
 		StartCommunication(conn)
 		log.Print("Chat session has been disconnected...\n")
@@ -33,6 +34,7 @@ func HandleConnection(listener net.Listener) {
   The RedirectToChannel routine terminates when redirecterCanceler receive its value
 */
 func StartCommunication(connection net.Conn) {
+	defer connection.Close()
 	//channels
 	writerCanceler := make(chan bool)
 	redirecterCanceler := make(chan bool)
@@ -58,7 +60,6 @@ func StartCommunication(connection net.Conn) {
 
 	//Close main channel, close connection, stop goroutines by sending true to them
 	close(messageChannel)
-	connection.Close()
 	redirecterCanceler <- true
 	writerCanceler <- true
 }

@@ -1,4 +1,4 @@
-package config
+package failer
 
 import (
 	"log"
